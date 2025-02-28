@@ -265,12 +265,12 @@
             let months_remaining = parseInt(document.getElementById("months_remaining").value);
 
             let commit_total = (bs_commit_price * bs_commit_qty + es_commit_price * es_commit_qty + ep_commit_price * ep_commit_qty) * 36;
-            let commit_formula = `(${bs_commit_price} × ${bs_commit_qty} + ${es_commit_price} × ${es_commit_qty} + ${ep_commit_price} × ${ep_commit_qty}) × 36 = ${formatNumber(commit_total)}€`;
+            let commit_formula = `((${bs_commit_price} × ${bs_commit_qty}) + (${es_commit_price} × ${es_commit_qty}) + (${ep_commit_price} × ${ep_commit_qty})) × 36 = ${formatNumber(commit_total)}€`;
 
             let new_es_commit_qty = es_commit_qty - departing_users;
             let flex_total = (bs_commit_price * bs_commit_qty + es_commit_price * new_es_commit_qty + ep_commit_price * ep_commit_qty) * 36 + 
                              (bs_flex_price * departing_users * months_remaining);
-            let flex_formula = `(${bs_commit_price} × ${bs_commit_qty} + ${es_commit_price} × ${new_es_commit_qty} + ${ep_commit_price} × ${ep_commit_qty}) × 36 + (${bs_flex_price} × ${departing_users} × ${months_remaining}) = ${formatNumber(flex_total)}€`;
+            let flex_formula = `(((${bs_commit_price} × ${bs_commit_qty}) + (${es_commit_price} × ${new_es_commit_qty}) + (${ep_commit_price} × ${ep_commit_qty})) × 36) + (${bs_flex_price} × ${departing_users} × ${months_remaining}) = ${formatNumber(flex_total)}€`;
 
             let difference = commit_total - flex_total;
             let difference_formula = `${formatNumber(commit_total)} - ${formatNumber(flex_total)} = ${formatNumber(difference)}€`;
