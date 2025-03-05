@@ -290,11 +290,17 @@
         // Load initial values from vars.json
         async function loadInitialValues() {
             try {
-                const response = await fetch('vars.json');
+                const response = await fetch('/gsuit-price-calculator/vars.json');
+                let data;
                 if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
+                    const fallbackResponse = await fetch('./vars.json');
+                    if (!fallbackResponse.ok) {
+                        throw new Error('Could not load vars.json from any location');
+                    }
+                    data = await fallbackResponse.json();
+                } else {
+                    data = await response.json();
                 }
-                const data = await response.json();
                 
                 document.getElementById("bs_commit_price").value = data.business_standard.commit.price;
                 document.getElementById("bs_commit_qty").value = data.business_standard.commit.qty;
@@ -310,7 +316,7 @@
                 calculate();
             } catch (error) {
                 console.error('Error loading vars.json:', error);
-                alert('Error loading vars.json');
+                alert('Error loading vars.json: ' + error.message);
             }
         }
 
