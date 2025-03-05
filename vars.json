@@ -1,0 +1,25 @@
+{
+    "business_standard": {
+        "commit": {
+            "price": 8.73,
+            "qty": 299
+        }
+    },
+    "enterprise_standard": {
+        "commit": {
+            "price": 17.75,
+            "qty": 520
+        }
+    },
+    "enterprise_plus": {
+        "commit": {
+            "price": 20,
+            "qty": 1
+        }
+    },
+    "business_flexible": {
+        "price": 16.20,
+        "departing_users": 100,
+        "months_remaining": 3
+    }
+}
