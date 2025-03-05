@@ -174,6 +174,10 @@
                     <label>Business Standard (Commit) колл-во:</label>
                     <input type="number" id="bs_commit_qty">
                 </div>
+                <div>
+                    <label>Business Standard цена после повышения:</label>
+                    <input type="number" id="bs_increased_price" step="0.01">
+                </div>
             </div>
 
             <div class="input-group">
@@ -184,6 +188,10 @@
                 <div>
                     <label>Enterprise Standard (Commit) колл-во:</label>
                     <input type="number" id="es_commit_qty">
+                </div>
+                <div>
+                    <label>Enterprise Standard цена после повышения:</label>
+                    <input type="number" id="es_increased_price" step="0.01">
                 </div>
             </div>
 
@@ -231,6 +239,13 @@
             
             <p>Выгода (за весь период): <span id="difference">-</span> €</p>
             <p class="formula"><span id="difference_formula">-</span></p>
+
+            <h3>Расчет с повышенными ценами</h3>
+            <p>Полная стоимость с повышенными ценами BS и ES: <span id="increased_total">-</span> €</p>
+            <p class="formula"><span id="increased_formula">-</span></p>
+            
+            <p>Разница с базовой стоимостью: <span id="increased_difference">-</span> €</p>
+            <p class="formula"><span id="increased_difference_formula">-</span></p>
         </div>
     </div>
 
@@ -256,8 +271,10 @@
         function calculate() {
             let bs_commit_price = parseFloat(document.getElementById("bs_commit_price").value);
             let bs_commit_qty = parseInt(document.getElementById("bs_commit_qty").value);
+            let bs_increased_price = parseFloat(document.getElementById("bs_increased_price").value);
             let es_commit_price = parseFloat(document.getElementById("es_commit_price").value);
             let es_commit_qty = parseInt(document.getElementById("es_commit_qty").value);
+            let es_increased_price = parseFloat(document.getElementById("es_increased_price").value);
             let ep_commit_price = parseFloat(document.getElementById("ep_commit_price").value);
             let ep_commit_qty = parseInt(document.getElementById("ep_commit_qty").value);
             let bs_flex_price = parseFloat(document.getElementById("bs_flex_price").value);
@@ -285,6 +302,23 @@
             differenceElement.textContent = formatNumber(difference);
             differenceElement.className = difference > 0 ? 'positive' : 'negative';
             document.getElementById("difference_formula").textContent = difference_formula;
+
+            // Calculate scenario with both prices increased
+            let increased_total = ((bs_increased_price * bs_commit_qty) + (es_increased_price * es_commit_qty) + (ep_commit_price * ep_commit_qty)) * 36;
+            
+            let increased_formula = `(((${bs_increased_price} × ${bs_commit_qty}) + (${es_increased_price} × ${es_commit_qty}) + (${ep_commit_price} × ${ep_commit_qty})) × 36) = ${formatNumber(increased_total)}€`;
+
+            let increased_difference = commit_total - increased_total;
+            let increased_difference_formula = `${formatNumber(commit_total)} - ${formatNumber(increased_total)} = ${formatNumber(increased_difference)}€`;
+
+            // Update results
+            document.getElementById("increased_total").textContent = formatNumber(increased_total);
+            document.getElementById("increased_formula").textContent = increased_formula;
+            
+            let increasedDifferenceElement = document.getElementById("increased_difference");
+            increasedDifferenceElement.textContent = formatNumber(increased_difference);
+            increasedDifferenceElement.className = increased_difference > 0 ? 'positive' : 'negative';
+            document.getElementById("increased_difference_formula").textContent = increased_difference_formula;
         }
 
         // Load initial values from vars.json
@@ -304,8 +338,10 @@
                 
                 document.getElementById("bs_commit_price").value = data.business_standard.commit.price;
                 document.getElementById("bs_commit_qty").value = data.business_standard.commit.qty;
+                document.getElementById("bs_increased_price").value = data.business_standard.commit.after_price_increase;
                 document.getElementById("es_commit_price").value = data.enterprise_standard.commit.price;
                 document.getElementById("es_commit_qty").value = data.enterprise_standard.commit.qty;
+                document.getElementById("es_increased_price").value = data.enterprise_standard.commit.after_price_increase;
                 document.getElementById("ep_commit_price").value = data.enterprise_plus.commit.price;
                 document.getElementById("ep_commit_qty").value = data.enterprise_plus.commit.qty;
                 document.getElementById("bs_flex_price").value = data.business_flexible.price;

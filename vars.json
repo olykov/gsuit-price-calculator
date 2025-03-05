@@ -1,14 +1,16 @@
 {
     "business_standard": {
         "commit": {
-            "price": 8.73,
-            "qty": 299
+            "price": 11.13,
+            "qty": 299,
+            "after_price_increase": 13
         }
     },
     "enterprise_standard": {
         "commit": {
-            "price": 17.75,
-            "qty": 520
+            "price": 19.05,
+            "qty": 520,
+            "after_price_increase": 22
         }
     },
     "enterprise_plus": {
