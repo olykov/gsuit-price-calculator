@@ -291,20 +291,26 @@
         async function loadInitialValues() {
             try {
                 const response = await fetch('vars.json');
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
                 const data = await response.json();
                 
-                document.getElementById("bs_commit_price").value = data.bs_commit_price;
-                document.getElementById("bs_commit_qty").value = data.bs_commit_qty;
-                document.getElementById("es_commit_price").value = data.es_commit_price;
-                document.getElementById("es_commit_qty").value = data.es_commit_qty;
-                document.getElementById("ep_commit_price").value = data.ep_commit_price;
-                document.getElementById("ep_commit_qty").value = data.ep_commit_qty;
-                document.getElementById("bs_flex_price").value = data.bs_flex_price;
-                document.getElementById("departing_users").value = data.departing_users;
+                document.getElementById("bs_commit_price").value = data.business_standard.commit.price;
+                document.getElementById("bs_commit_qty").value = data.business_standard.commit.qty;
+                document.getElementById("es_commit_price").value = data.enterprise_standard.commit.price;
+                document.getElementById("es_commit_qty").value = data.enterprise_standard.commit.qty;
+                document.getElementById("ep_commit_price").value = data.enterprise_plus.commit.price;
+                document.getElementById("ep_commit_qty").value = data.enterprise_plus.commit.qty;
+                document.getElementById("bs_flex_price").value = data.business_flexible.price;
+                document.getElementById("departing_users").value = data.business_flexible.departing_users;
+                document.getElementById("months_remaining").value = data.business_flexible.months_remaining;
+                document.getElementById("months_value").textContent = data.business_flexible.months_remaining;
                 
                 calculate();
             } catch (error) {
                 console.error('Error loading vars.json:', error);
+                alert('Error loading vars.json');
             }
         }
 
