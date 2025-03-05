@@ -290,17 +290,17 @@
         // Load initial values from vars.json
         async function loadInitialValues() {
             try {
-                // Use the full path from the repository root
                 const response = await fetch('/gsuit-price-calculator/vars.json');
+                let data;
                 if (!response.ok) {
-                    // Try fallback to relative path if full path fails
                     const fallbackResponse = await fetch('./vars.json');
                     if (!fallbackResponse.ok) {
                         throw new Error('Could not load vars.json from any location');
                     }
-                    return await fallbackResponse.json();
+                    data = await fallbackResponse.json();
+                } else {
+                    data = await response.json();
                 }
-                const data = await response.json();
                 
                 document.getElementById("bs_commit_price").value = data.business_standard.commit.price;
                 document.getElementById("bs_commit_qty").value = data.business_standard.commit.qty;
