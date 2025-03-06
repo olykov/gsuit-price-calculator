@@ -3,19 +3,19 @@
         "commit": {
             "price": 11.13,
             "qty": 299,
-            "after_price_increase": 13
+            "after_price_increase": 13.6
         }
     },
     "enterprise_standard": {
         "commit": {
             "price": 19.05,
             "qty": 520,
-            "after_price_increase": 22
+            "after_price_increase": 26.1
         }
     },
     "enterprise_plus": {
         "commit": {
-            "price": 20,
+            "price": 33.8,
             "qty": 1
         }
     },
